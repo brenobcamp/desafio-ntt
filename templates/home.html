@@ -1,0 +1,33 @@
+<h1>Home</h1>
+<h2>Criar documento</h2>
+<div>
+    <form action="post" method="post" enctype="multipart/form-data">
+      <label for="code">Short Name</label>
+      <input type="text" class="form-control" name="code" id="code" value="" required>
+      <br>
+      <label for="url">Website URL</label>
+      <input type="url" class="form-control" name="url" id="url" value="" required>
+      <br>
+      <input type="file" class="form-control" name="file" id="file" required>
+      <br>
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Shorten</button>
+    </form>
+  </div>
+  <h2>Deletar documento</h2>
+  <div>
+    <form action="delete" method="post">
+      <label for="delete">Short Name</label>
+      <input type="text" class="form-control" name="delete" id="delete" value="" required>
+      <br>
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Shorten</button>
+    </form>
+  </div>
+
+  {% if documentos %}
+  <h2>Get:</h2>
+  <ul>
+    {% for documento in documentos %}
+     <img src="/static/user_files/{{ documento['image'] }}">{{documento['code']}} : <a href="{{documento['url']}}" target="_blank">{{documento['url']}}</a><br>
+    {% endfor %}
+  </ul>
+  {% endif %}
