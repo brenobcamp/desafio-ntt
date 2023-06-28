@@ -15,7 +15,7 @@
   </div>
   <h2>Deletar documento</h2>
   <div>
-    <form action="delete" method="post">
+    <form action="delete_code" method="delete">
       <label for="delete">Short Name</label>
       <input type="text" class="form-control" name="delete" id="delete" value="" required>
       <br>
@@ -27,7 +27,7 @@
   <h2>Get:</h2>
   <ul>
     {% for documento in documentos %}
-     <img src="/static/user_files/{{ documento['image'] }}">{{documento['code']}} : <a href="{{documento['url']}}" target="_blank">{{documento['url']}}</a><br>
+     <img src="{{ documento['image'] }}">{{documento['code']}} : <a href="{{documento['url']}}" target="_blank">{{documento['url']}}</a><br>
     {% endfor %}
   </ul>
   {% endif %}

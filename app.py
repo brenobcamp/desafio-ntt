@@ -26,7 +26,7 @@ def post():
         post = {
             'code': request.form['code'].strip(),
             'url': request.form['url'].strip(),
-            'image': full_name
+            'image': 'https://5000-brenobcamp-desafiontt-1j9w3kam4lw.ws-us101.gitpod.io/static/user_files/' + full_name
         }
         collection.insert_one(post)
         
@@ -40,6 +40,17 @@ def delete():
             os.remove(f'/workspace/desafio-ntt/static/user_files/{delete["image"]}')
             collection.delete_one({'code': request.form['delete']})
             return "Deleted"
+
+@app.route("/del/<code>", methods=["GET", "DELETE"])
+def delete_code(code):
+    if collection.find_one({"code": code}):
+        delete = collection.find_one({"code": code})
+        file = delete['image'].split("https://5000-brenobcamp-desafiontt-1j9w3kam4lw.ws-us101.gitpod.io/static/user_files/")
+        file = file[1]
+        os.remove(f'/workspace/desafio-ntt/static/user_files/{file}')
+        collection.delete_one({'code': code})
+        return 'Deleted', 200
+    return abort(404)
 
 @app.route("/get", methods=['GET', 'POST'])
 def get():
