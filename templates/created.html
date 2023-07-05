@@ -5,12 +5,5 @@
 {% block main %}
 
 
-<div class="container text-center">
-  <h1 class="jumbotron-heading">URL Created</h1>
-  <input value="{{ url_for('app.redirect_to_url', code=code, _external=True) }}" readonly>
-  <p>
-    <button onclick="myFunction()" class="btn btn-primary my-2">Copy URL</button>
-  </p>
-</div>
 
 {% endblock %}
