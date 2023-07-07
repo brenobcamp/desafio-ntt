@@ -5,16 +5,8 @@ from bson import json_util
 from werkzeug.utils import secure_filename
 import json
 import os
-from pydantic import BaseModel
 from http import HTTPStatus
 from flask_pydantic import validate
-
-
-class Code(BaseModel):
-    code: str
-    url: str
-    image: str
-
 
 app = Flask(__name__)
 uri = "mongodb+srv://brenocampos:sapoazul@clusterazure.tybruw9.mongodb.net/?retryWrites=true&w=majority"
@@ -71,7 +63,6 @@ def get():
 # API
 
 @app.route("/create", methods=["POST"])
-@validate()
 def create():
     collection.insert_one(request.json)
     return jsonify({"code": HTTPStatus.OK,
