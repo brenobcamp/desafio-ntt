@@ -59,8 +59,6 @@ def delete():
         return "Deleted"
     return abort(404)
 
-# API
-
 @app.route("/get", methods=['GET'])
 def get():
     find = collection.find()
