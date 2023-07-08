@@ -21,7 +21,7 @@ def home():
     return render_template("home.html", documentos=collection.find())
 
 
-@app.route("/post", methods=['GET', 'POST'])
+@app.route("/post", methods=['POST'])
 def post():
     if request.method == 'POST':
         file = request.files['file']
@@ -57,7 +57,6 @@ def delete():
         os.remove(f'/workspace/desafio-ntt/static/user_files/{file}')
         collection.delete_one(req_data)
         return "Deleted"
-
     return abort(404)
 
 # API
@@ -69,7 +68,7 @@ def get():
     json = json_util.dumps(list_cur)
     return json
 
-@app.route('/create2',methods=['POST'])
+@app.route('/create',methods=['POST'])
 def createTask():
     req_data = request.json
     collection.insert_one(req_data)
@@ -80,18 +79,6 @@ def createTask():
 def put(code, url, image):
     collection.update_one({'code': code, 'url': url, 'image': image})
     return 'Updated', 200
-
-
-@app.route("/del/<string:code>", methods=["DELETE"])
-def delete_code(code):
-    if collection.find_one({"code": code}):
-        delete = collection.find_one({"code": code})
-        file = delete['image'].split("https://5000-brenobcamp-desafiontt-1j9w3kam4lw.ws-us101.gitpod.io/static/user_files/")
-        file = file[1]
-        os.remove(f'/workspace/desafio-ntt/static/user_files/{file}')
-        collection.delete_one({'code': code})
-        return 'Deleted', 200
-    return abort(404)
 
 
 @app.route("/<string:code>")
