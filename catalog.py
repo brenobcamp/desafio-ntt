@@ -18,21 +18,29 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.urls
 collection = db.urls
 
-@bp.route("/index")
+@bp.route("/index", methods=['GET'])
 def index():
-    return render_template("home.html")
+    documentos = collection.find()
+    return render_template("home.html", documentos=documentos)
 
-@bp.route("/")
+@bp.route("/", methods=['GET'])
 def home():
-    return render_template("listagem.html")
+    documentos = collection.find()
+    return render_template("listagem.html", documentos=documentos)
 
-@bp.route("/cadastro")
+@bp.route("/cadastro", methods=['GET'])
 def cadastro():
     return render_template("cadastro.html")
 
-@bp.route("/remocao")
+@bp.route("/remocao", methods=['GET'])
 def remocao():
-    return render_template("remocao.html")
+    documentos = collection.find()
+    return render_template("remocao.html", documentos=documentos)
+
+@bp.route("/edicao", methods=['GET'])
+def edicao():
+    documentos = collection.find()
+    return render_template("edicao.html", documentos=documentos)
 
 @bp.route("/get", methods=['GET'])
 def get():
@@ -70,7 +78,7 @@ def delete():
             os.remove(f'/workspace/desafiontt/static/user_files/{file}')
             collection.delete_one({'nome': request.form['delete']})
             flash('Registro criado')
-            return redirect(url_for('catalog.home'))
+            return redirect(url_for('catalog.remocao'))
     if request.method == 'DELETE':
         req_data = request.json
         delete = collection.find_one(req_data)

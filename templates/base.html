@@ -9,17 +9,17 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Catálogo de Insetos</a>
+      <a class="navbar-brand" href="{{ url_for('catalog.home')}}">Catálogo de Insetos</a>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="listagem.html">Listagem</a>
+            <a class="nav-link" href="{{ url_for('catalog.home')}}">Listagem</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('catalog.cadastro') }}">Cadastro</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="edicao.html">Edição</a>
+            <a class="nav-link" href="{{ url_for('catalog.edicao')}}">Edição</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('catalog.remocao') }}">Remoção</a>
