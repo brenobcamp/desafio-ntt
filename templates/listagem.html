@@ -22,7 +22,7 @@
             <td>{{documento['nome']}}</td>
             <td>{{documento['especie']}}</td>
             <td>{{ documento['ordem'] }}</td>
-            <td><img src="{{ documento['imagem'] }}" width="100"></td>
+            <td><a href="{{ documento['imagem']}}" target="_blank"><img src="{{ documento['imagem'] }}" width="100"></a></td>
             </tr>
           {% endfor %}
         {% endif %}
