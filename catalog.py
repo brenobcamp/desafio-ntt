@@ -18,10 +18,13 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.urls
 collection = db.urls
 
+@bp.route("/index")
+def index():
+    return render_template("home.html")
 
 @bp.route("/")
 def home():
-    return render_template("listagem.html", documentos=collection.find())
+    return render_template("listagem.html")
 
 @bp.route("/cadastro")
 def cadastro():
@@ -43,12 +46,12 @@ def get():
 def post():
     if request.method == 'POST':
         file = request.files['file']
-        full_name = request.form['nome_cientifico'] + secure_filename(file.filename)
+        full_name = request.form['nome'] + secure_filename(file.filename)
         file.save('/workspace/desafiontt/static/user_files/' + full_name)
 
         post = {
-            'nome_comum': request.form['nome_comum'].strip(),
-            'nome_cientifico': request.form['nome_cientifico'].strip(),
+            'nome': request.form['nome'].strip(),
+            'especie': request.form['especie'].strip(),
             'ordem': request.form['ordem'].strip(),
             'imagem': 'https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/' + full_name
         }
@@ -60,12 +63,12 @@ def post():
 @bp.route("/delete", methods=['POST', 'DELETE'])
 def delete():
     if request.method == 'POST':
-        if collection.find_one({"nome_comum": request.form['delete']}):
-            delete = collection.find_one({"nome_comum": request.form['delete']})
+        if collection.find_one({"nome": request.form['delete']}):
+            delete = collection.find_one({"nome": request.form['delete']})
             file = delete['imagem'].split("https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/")
             file = file[1]
             os.remove(f'/workspace/desafiontt/static/user_files/{file}')
-            collection.delete_one({'nome_comum': request.form['delete']})
+            collection.delete_one({'nome': request.form['delete']})
             flash('Registro criado')
             return redirect(url_for('catalog.home'))
     if request.method == 'DELETE':
