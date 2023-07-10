@@ -12,16 +12,17 @@ from http import HTTPStatus
 
 
 bp = Blueprint('catalog', __name__)
-# app = Flask(__name__)
 uri = "mongodb+srv://brenocampos:sapoazul@clusterazure.tybruw9.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.urls
 collection = db.urls
 
-@bp.route("/index", methods=['GET'])
-def index():
-    documentos = collection.find()
-    return render_template("home.html", documentos=documentos)
+# @bp.route("/index", methods=['GET'])
+# def index():
+#     documentos = collection.find()
+#     return render_template("home.html", documentos=documentos)
+
+# Web
 
 @bp.route("/", methods=['GET'])
 def home():
@@ -37,10 +38,13 @@ def remocao():
     documentos = collection.find()
     return render_template("remocao.html", documentos=documentos)
 
-@bp.route("/edicao", methods=['GET'])
-def edicao():
-    documentos = collection.find()
-    return render_template("edicao.html", documentos=documentos)
+
+@bp.route("/edicao/<string:nome>", methods=['GET', "POST"])
+def edicao(nome):
+    documento = collection.find_one({"nome": nome})
+    return render_template("edicao.html", documentos=documento)
+
+# API
 
 @bp.route("/get", methods=['GET'])
 def get():
@@ -50,7 +54,7 @@ def get():
     return json
 
 
-@bp.route("/post", methods=['GET', 'POST'])
+@bp.route("/post", methods=['POST'])
 def post():
     if request.method == 'POST':
         file = request.files['file']
@@ -66,6 +70,23 @@ def post():
         collection.insert_one(post)
         flash('Registro criado')
         return redirect(url_for('catalog.home'))
+    
+# @bp.route("/update/<string:nome>", methods=["POST"])
+# def put(nome):
+#     if request.method == 'POST':
+#         file = request.files['file']
+#         full_name = request.form['nome'] + secure_filename(file.filename)
+#         file.save('/workspace/desafiontt/static/user_files/' + full_name)
+
+#         # collection.find_one_and_update()
+
+#         post = {
+#             'nome': request.form['nome'].strip(),
+#             'especie': request.form['especie'].strip(),
+#             'ordem': request.form['ordem'].strip(),
+#             'imagem': 'https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/' + full_name
+#         }
+    
 
 
 @bp.route("/delete", methods=['POST', 'DELETE'])
