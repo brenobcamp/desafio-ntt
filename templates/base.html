@@ -13,21 +13,25 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('catalog.home')}}">Listagem</a>
+            <a class="nav-link" href="{{ url_for('catalog.home')}}">Lista de espécies</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('catalog.cadastro') }}">Cadastro</a>
+            <a class="nav-link" href="{{ url_for('catalog.cadastro') }}">Cadastrar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">Edição</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('catalog.remocao') }}">Remoção</a>
+            <a class="nav-link" href="{{ url_for('catalog.remocao') }}">Editar</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
+  {% for message in get_flashed_messages() %}
+  <div class="container text-center">
+    <div class="p-3 mb-2 bg-danger text-white">{{ message }}</div>
+  </div>
+  <br>
+  {% endfor %}
 
   {% block main %}{% endblock %}
 

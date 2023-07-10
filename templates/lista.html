@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}Cadastro de Insetos{% endblock %}
+{% block title %}Lista de Espécies{% endblock %}
 
 {% block main %}
 
   <div class="container mt-5">
-    <h2>Listagem de Insetos</h2>
+    <h2>Lista de Espécies</h2>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Nome Comum</th>
-          <th>Nome Científico</th>
+          <th>Espécie</th>
           <th>Ordem</th>
           <th>Imagem</th>
         </tr>
@@ -22,7 +22,7 @@
             <td>{{documento['nome']}}</td>
             <td>{{documento['especie']}}</td>
             <td>{{ documento['ordem'] }}</td>
-            <td><a href="{{ documento['imagem']}}" target="_blank"><img src="{{ documento['imagem'] }}" width="100"></a></td>
+            <td><a href="{{ documento['imagem']}}" target="_blank"><img src="{{ documento['imagem'] }}" width="150"></a></td>
             </tr>
           {% endfor %}
         {% endif %}

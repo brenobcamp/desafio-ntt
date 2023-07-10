@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}CRUD de Insetos - Remoção{% endblock %}
+{% block title %}Editar Registros{% endblock %}
 
 {% block main %}
 
   <div class="container mt-5">
-    <h2>Remoção de Insetos</h2>
+    <h2>Editar Registros</h2>
     <table class="table table-striped">
       <thead>
         <tr>
           <th>Nome Comum</th>
-          <th>Nome Científico</th>
+          <th>Espécie</th>
           <th>Ordem</th>
           <th>Imagem</th>
-          <th>Ação</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody id="insetos-lista">
@@ -23,8 +23,13 @@
             <td>{{documento['nome']}}</td>
             <td>{{documento['especie']}}</td>
             <td>{{ documento['ordem'] }}</td>
-            <td><img src="{{ documento['imagem'] }}" width="100"></td>
+            <td><a href="{{ documento['imagem']}}" target="_blank"><img src="{{ documento['imagem'] }}" width="150"></a></td>
             <td>
+              <a href="{{ url_for('catalog.edicao', nome=documento['nome']) }}">
+                <button class="btn btn-danger btn-remover" style="background-color: black; border-color: black;" type="submit">Editar</button>
+              </a>
+              </form>
+          
               <form action="delete" method="post">
                 <input type="hidden" class="form-control" name="delete" id="delete" value="{{ documento['nome']}}">
                 <br>

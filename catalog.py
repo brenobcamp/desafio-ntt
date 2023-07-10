@@ -1,9 +1,7 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from flask import (Blueprint, render_template, session, 
-                    request, url_for, jsonify, 
-                    make_response, redirect, abort,
-                    flash)
+from flask import (Blueprint, render_template, session,request, url_for, jsonify, 
+                    make_response, redirect, abort, flash)
 from bson import json_util
 from werkzeug.utils import secure_filename
 import json
@@ -17,21 +15,18 @@ client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.urls
 collection = db.urls
 
-# @bp.route("/index", methods=['GET'])
-# def index():
-#     documentos = collection.find()
-#     return render_template("home.html", documentos=documentos)
-
 # Web
 
 @bp.route("/", methods=['GET'])
 def home():
     documentos = collection.find()
-    return render_template("listagem.html", documentos=documentos)
+    return render_template("lista.html", documentos=documentos)
+
 
 @bp.route("/cadastro", methods=['GET'])
 def cadastro():
     return render_template("cadastro.html")
+
 
 @bp.route("/remocao", methods=['GET'])
 def remocao():
@@ -39,7 +34,7 @@ def remocao():
     return render_template("remocao.html", documentos=documentos)
 
 
-@bp.route("/edicao/<string:nome>", methods=['GET', "POST"])
+@bp.route("/edicao/<string:nome>", methods=['GET'])
 def edicao(nome):
     documento = collection.find_one({"nome": nome})
     return render_template("edicao.html", documentos=documento)
@@ -71,44 +66,44 @@ def post():
         flash('Registro criado')
         return redirect(url_for('catalog.home'))
     
-# @bp.route("/update/<string:nome>", methods=["POST"])
-# def put(nome):
-#     if request.method == 'POST':
-#         file = request.files['file']
-#         full_name = request.form['nome'] + secure_filename(file.filename)
-#         file.save('/workspace/desafiontt/static/user_files/' + full_name)
 
-#         # collection.find_one_and_update()
-
-#         post = {
-#             'nome': request.form['nome'].strip(),
-#             'especie': request.form['especie'].strip(),
-#             'ordem': request.form['ordem'].strip(),
-#             'imagem': 'https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/' + full_name
-#         }
-    
-
-
-@bp.route("/delete", methods=['POST', 'DELETE'])
-def delete():
+@bp.route("/edicao/update", methods=["POST"])
+def put():
     if request.method == 'POST':
-        if collection.find_one({"nome": request.form['delete']}):
-            delete = collection.find_one({"nome": request.form['delete']})
-            file = delete['imagem'].split("https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/")
-            file = file[1]
-            os.remove(f'/workspace/desafiontt/static/user_files/{file}')
-            collection.delete_one({'nome': request.form['delete']})
-            flash('Registro criado')
-            return redirect(url_for('catalog.remocao'))
-    if request.method == 'DELETE':
-        req_data = request.json
-        delete = collection.find_one(req_data)
-        file = delete['imagem'].split("https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/")
-        file = file[1]
-        os.remove(f'/workspace/desafiontt/static/user_files/{file}')
-        collection.delete_one(req_data)
-        return jsonify({'code': HTTPStatus.OK, 
-                        'message': 'Deleted'})
+        filtro = {"nome": request.form['nome_antigo']}
+
+        if request.files['file']:
+            delete = collection.find_one(filtro)
+            imagem_antiga = delete['imagem'].split("https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/")
+            imagem_antiga = imagem_antiga[1]
+            os.remove(f'/workspace/desafiontt/static/user_files/{imagem_antiga}')
+
+            imagem_nova = request.files['file']
+            full_name = request.form['nome'] + secure_filename(imagem_nova.filename)
+            imagem_nova.save('/workspace/desafiontt/static/user_files/' + full_name)
+
+            atualizacao = { '$set': {
+                'nome': request.form['nome'].strip(),
+                'especie': request.form['especie'].strip(),
+                'ordem': request.form['ordem'].strip(),
+                'imagem': 'https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/' + full_name
+            }
+            }
+
+            collection.update_one(filtro, atualizacao)
+            flash('Registro editado')
+            return redirect(url_for('catalog.home'))
+        else:
+            atualizacao = { '$set': {
+                'nome': request.form['nome'].strip(),
+                'especie': request.form['especie'].strip(),
+                'ordem': request.form['ordem'].strip()
+                }
+            }
+
+            collection.update_one(filtro, atualizacao)
+            flash('Registro editado')
+            return redirect(url_for('catalog.home'))
     return abort(404)
 
 
@@ -120,10 +115,41 @@ def create():
                     'message': 'Created'})
 
 
-@bp.route("/update/<string:code>", methods=['PUT'])
-def put(code, url, image):
-    collection.update_one({'code': code, 'url': url, 'image': image})
-    return 'Updated', 200
+@bp.route('/update/<string:nome>', methods=['PUT'])
+def update(nome):
+    if request.method == 'PUT':
+        filtro = {"nome": nome}
+        req_data = request.json
+        atualizacao = {"$set": req_data}
+        result = collection.update_one(filtro, atualizacao)
+        return jsonify({'code': HTTPStatus.OK, 
+                        'message': 'Registro editado'})
+
+    return abort(404)
+
+            
+@bp.route("/delete", methods=['POST', 'DELETE'])
+def delete():
+    if request.method == 'POST':
+        if collection.find_one({"nome": request.form['delete']}):
+            delete = collection.find_one({"nome": request.form['delete']})
+            file = delete['imagem'].split("https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/")
+            file = file[1]
+            os.remove(f'/workspace/desafiontt/static/user_files/{file}')
+            collection.delete_one({'nome': request.form['delete']})
+            flash('Registro deletado')
+            return redirect(url_for('catalog.remocao'))
+    if request.method == 'DELETE':
+        req_data = request.json
+        delete = collection.find_one(req_data)
+        file = delete['imagem'].split("https://5000-brenobcamp-desafiontt-rnqu8sqh0c8.ws-us101.gitpod.io/static/user_files/")
+        file = file[1]
+        os.remove(f'/workspace/desafiontt/static/user_files/{file}')
+        collection.delete_one(req_data)
+        return jsonify({'code': HTTPStatus.OK, 
+                        'message': 'Registro deletado'})
+    return abort(404)
+
 
 @bp.errorhandler(404)
 def page_not_found(error):

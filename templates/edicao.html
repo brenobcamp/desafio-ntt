@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}CRUD de Insetos - Remoção{% endblock %}
+{% block title %}Editar {{ documentos['nome']}}{% endblock %}
 
 {% block main %}
 
 <div class="container mt-5">
-  <h2>Edição de registro de {{ documentos['nome']}}</h2>
-  <form action="post" method="post" enctype="multipart/form-data">
+  <h2>Editar {{ documentos['nome']}}</h2>
+  <form action="update" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+    <input type="hidden" class="form-control" name="nome_antigo" id="nome_antigo" value="{{ documentos['nome'] }}" required>
+    </div>
     <div class="mb-3">
       <label for="nome" class="form-label">Nome Comum:</label>
       <input type="text" class="form-control" name="nome" id="nome" value="{{ documentos['nome'] }}" required>
