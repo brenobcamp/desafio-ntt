@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+  <title>CRUD de Insetos</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,22 +14,26 @@
             <a class="nav-link" href="listagem.html">Listagem</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('catalog.cadastro') }}">Cadastro</a>
+            <a class="nav-link" href="cadastro.html">Cadastro</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="edicao.html">Edição</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('catalog.remocao') }}">Remoção</a>
+            <a class="nav-link" href="remocao.html">Remoção</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  {% block main %}{% endblock %}
+  <div class="container mt-5">
+    <div id="content">
+      <!-- O conteúdo será carregado aqui dinamicamente -->
+    </div>
+  </div>
 
-  <script src="{{ url_for('static', filename='bootstrap.bundle.min.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script></script>
 </body>
 </html>

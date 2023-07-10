@@ -1,31 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>CRUD de Insetos - Listagem</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">CRUD de Insetos</a>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="listagem.html">Listagem</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="cadastro.html">Cadastro</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="edicao.html">Edição</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="remocao.html">Remoção</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de Insetos{% endblock %}
+
+{% block main %}
+
   <div class="container mt-5">
     <h2>Listagem de Insetos</h2>
     <table class="table table-striped">
@@ -96,5 +74,4 @@ window.addEventListener('load', loadInsetos);
   <script>
 
   </script>
-</body>
-</html>
+ {% endblock %}

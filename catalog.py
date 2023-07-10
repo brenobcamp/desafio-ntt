@@ -21,8 +21,15 @@ collection = db.urls
 
 @bp.route("/")
 def home():
-    return render_template("home.html", documentos=collection.find())
+    return render_template("listagem.html", documentos=collection.find())
 
+@bp.route("/cadastro")
+def cadastro():
+    return render_template("cadastro.html")
+
+@bp.route("/remocao")
+def remocao():
+    return render_template("remocao.html")
 
 @bp.route("/get", methods=['GET'])
 def get():
@@ -32,7 +39,7 @@ def get():
     return json
 
 
-@bp.route("/post", methods=['POST'])
+@bp.route("/post", methods=['GET', 'POST'])
 def post():
     if request.method == 'POST':
         file = request.files['file']
@@ -74,7 +81,7 @@ def delete():
 
 
 @bp.route('/create',methods=['POST'])
-def createTask():
+def create():
     req_data = request.json
     collection.insert_one(req_data)
     return jsonify({'code': HTTPStatus.OK, 
@@ -85,15 +92,6 @@ def createTask():
 def put(code, url, image):
     collection.update_one({'code': code, 'url': url, 'image': image})
     return 'Updated', 200
-
-
-# @bp.route("/<string:code>")
-# def redirect_to_url(code):
-#     if collection.find_one({"code": code}):
-#         document = collection.find_one({"code": code})
-#         return redirect(url_for('static', filename='user_files/' + document['image']))
-#     return abort(404)
-
 
 @bp.errorhandler(404)
 def page_not_found(error):
