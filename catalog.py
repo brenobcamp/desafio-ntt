@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 import json
 import os
 from http import HTTPStatus
+from random import choice
 
 
 bp = Blueprint('catalog', __name__)
@@ -16,6 +17,15 @@ db = client.insecta
 collection = db.especies
 
 # Web
+
+# @bp.route("/", methods=["GET"])
+# def home():
+#     imagens = []
+#     find = collection.find()
+#     for document in find:
+#         imagens.append(['imagem'])
+#     return render_template("home.html", imagem=choice(imagens))
+
 
 @bp.route("/", methods=['GET'])
 def home():
