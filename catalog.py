@@ -18,17 +18,17 @@ collection = db.especies
 
 # Web
 
-# @bp.route("/", methods=["GET"])
-# def home():
-#     imagens = []
-#     find = collection.find()
-#     for document in find:
-#         imagens.append(['imagem'])
-#     return render_template("home.html", imagem=choice(imagens))
-
-
-@bp.route("/", methods=['GET'])
+@bp.route("/", methods=["GET"])
 def home():
+    imagens = []
+    find = collection.find()
+    for document in find:
+        imagens.append(document['imagem'])
+    return render_template("home.html", imagem=choice(imagens))
+
+
+@bp.route("/lista", methods=['GET'])
+def lista():
     documentos = collection.find()
     return render_template("lista.html", documentos=documentos)
 
@@ -48,6 +48,11 @@ def remocao():
 def edicao(nome):
     documento = collection.find_one({"nome": nome})
     return render_template("edicao.html", documentos=documento)
+
+
+@bp.route("/about", methods=["GET"])
+def about():
+    return render_template("sobre.html")
 
 
 @bp.route("/<string:code>")
