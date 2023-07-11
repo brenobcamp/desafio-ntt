@@ -1,7 +1,7 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from flask import (Blueprint, render_template, session, request, url_for, jsonify, 
-                    make_response, redirect, abort, flash)
+                    redirect, abort, flash)
 from bson import json_util
 from werkzeug.utils import secure_filename
 import json
