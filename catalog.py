@@ -1,13 +1,13 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from flask import (Blueprint, render_template, session, request, url_for, jsonify, 
-                    redirect, abort, flash)
+from flask import (Blueprint, render_template, session, request, 
+                    url_for, jsonify, redirect, abort, flash)
 from bson import json_util
 from werkzeug.utils import secure_filename
-import json
-import os
 from http import HTTPStatus
 from random import choice
+import json
+import os
 
 
 bp = Blueprint('catalog', __name__)
