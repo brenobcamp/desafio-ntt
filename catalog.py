@@ -118,7 +118,7 @@ def put():
 
             collection.update_one(filtro, atualizacao)
             flash('Registro editado')
-            return redirect(url_for('catalog.home'))
+            return redirect(url_for('catalog.remocao'))
         else:
             atualizacao = { '$set': {
                 'nome': request.form['nome'].strip(),
@@ -129,7 +129,7 @@ def put():
 
             collection.update_one(filtro, atualizacao)
             flash('Registro editado')
-            return redirect(url_for('catalog.home'))
+            return redirect(url_for('catalog.remocao'))
     return abort(404)
 
 
