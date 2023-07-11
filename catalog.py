@@ -1,6 +1,6 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from flask import (Blueprint, render_template, session,request, url_for, jsonify, 
+from flask import (Blueprint, render_template, session, request, url_for, jsonify, 
                     make_response, redirect, abort, flash)
 from bson import json_util
 from werkzeug.utils import secure_filename
@@ -12,8 +12,8 @@ from http import HTTPStatus
 bp = Blueprint('catalog', __name__)
 uri = "mongodb+srv://brenocampos:sapoazul@clusterazure.tybruw9.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri, server_api=ServerApi('1'))
-db = client.urls
-collection = db.urls
+db = client.insecta
+collection = db.especies
 
 # Web
 
@@ -38,6 +38,17 @@ def remocao():
 def edicao(nome):
     documento = collection.find_one({"nome": nome})
     return render_template("edicao.html", documentos=documento)
+
+
+@bp.route("/<string:code>")
+def redirect_to(code):
+    return abort(404)
+
+
+@bp.errorhandler(404)
+def page_not_found(error):
+    return render_template('pagenotfound.html'), 404
+
 
 # API
 
@@ -149,8 +160,3 @@ def delete():
         return jsonify({'code': HTTPStatus.OK, 
                         'message': 'Registro deletado'})
     return abort(404)
-
-
-@bp.errorhandler(404)
-def page_not_found(error):
-    return render_template('page_not_found.html'), 404

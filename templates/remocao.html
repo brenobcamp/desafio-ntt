@@ -21,7 +21,7 @@
           {% for documento in documentos %}
            <tr>
             <td>{{documento['nome']}}</td>
-            <td>{{documento['especie']}}</td>
+            <td><i>{{documento['especie']}}</i></td>
             <td>{{ documento['ordem'] }}</td>
             <td><a href="{{ documento['imagem']}}" target="_blank"><img src="{{ documento['imagem'] }}" width="150"></a></td>
             <td>
