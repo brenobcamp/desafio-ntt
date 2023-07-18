@@ -6,3 +6,8 @@
 ## Imagens do site
 
 <img src="/prints/home.png">
+<img src="/prints/lista.png">
+<img src="/prints/cadastro.png">
+<img src="/prints/editar.png">
+<img src="/prints/about.png">
+<img src="/prints/mongodb.png">
