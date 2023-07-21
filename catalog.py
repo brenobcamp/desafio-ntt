@@ -11,7 +11,7 @@ import os
 
 
 bp = Blueprint('catalog', __name__)
-uri = "mongodb+srv://brenocampos:sapoazul@clusterazure.tybruw9.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://brenocampos:@clusterazure.tybruw9.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.insecta
 collection = db.especies
